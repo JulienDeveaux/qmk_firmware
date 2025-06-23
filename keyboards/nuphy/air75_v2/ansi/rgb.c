@@ -261,11 +261,11 @@ void sys_led_show(void) {
     }
 
     if (user_config.numlock_state != 1 || !host_keyboard_led_state().num_lock) { return; }
-    
+
     current_rgb.r = 0x80, current_rgb.g = 0x80, current_rgb.b = 0x80;
     set_sys_light();
     side_ws2812_set_color_strip(led_side, current_rgb.r, current_rgb.g, current_rgb.b);
-        
+
 }
 
 static uint8_t breathe_data(uint8_t step) {
@@ -392,7 +392,7 @@ static void side_static_mode_show(void) {
     current_rgb.r = colour_lib[user_config.ee_side_colour][0];
     current_rgb.g = colour_lib[user_config.ee_side_colour][1];
     current_rgb.b = colour_lib[user_config.ee_side_colour][2];
- 
+
     count_rgb_light(side_light_table[user_config.ee_side_light]);
     side_ws2812_set_color_strip(LEFT_SIDE + RIGHT_SIDE, current_rgb.r, current_rgb.g, current_rgb.b);
 }
@@ -499,7 +499,7 @@ void bat_num_led(void)
 
     rgb_required = 1;
     // set color
-    
+
     if (bat_percent < low_bat_level) {
         r = 0xff; g = 0x00; b = 0x00;
     }
@@ -726,7 +726,7 @@ void rgb_led_indicator(void) {
 
 void caps_word_show(void) {
     static bool caps_word_rgb_on = 0;
-    if (!is_caps_word_on() || game_mode_enable || !user_config.caps_word_enable) {
+    if (!false || game_mode_enable || !user_config.caps_word_enable) {
         if (caps_word_rgb_on) {
             caps_word_rgb_on = 0;
             rgb_matrix_set_color(led_idx.KC_CAPS, RGB_OFF);
@@ -805,7 +805,7 @@ void normal_led_process(void) {
                 break;
         }
     }
-    
+
     side_one_show();
     bat_led_show();
     sleep_sw_led_show();

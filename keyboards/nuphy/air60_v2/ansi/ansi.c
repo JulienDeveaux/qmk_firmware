@@ -211,9 +211,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             return true;
 
         case KC_LSFT:
-            if (!record->event.pressed) {
-                if ((!user_config.caps_word_enable || game_mode_enable) && is_caps_word_on()) { caps_word_off(); }
-            }
             return true;
 
         case MAC_VOICE:
