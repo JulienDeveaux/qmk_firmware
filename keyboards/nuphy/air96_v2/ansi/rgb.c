@@ -252,21 +252,19 @@ void sys_led_show(void) {
     current_rgb.g = SIDE_BLINK_LIGHT;
     current_rgb.b = SIDE_BLINK_LIGHT;
     current_rgb.r = 0x00;
-    uint8_t led_side = LEFT_SIDE;
 
     if (host_keyboard_led_state().caps_lock) {
-        led_side = RIGHT_SIDE;
         set_sys_light();
         side_is31fl3733_set_color_strip(LEFT_SIDE, current_rgb.r, current_rgb.g, current_rgb.b);
     }
 
-    if (user_config.numlock_state != 1 || !host_keyboard_led_state().num_lock) { return; }
+    if (user_config.numlock_state != 1 || host_keyboard_led_state().num_lock) { return; }
 
     current_rgb.r = SIDE_BLINK_LIGHT;
     current_rgb.g = SIDE_BLINK_LIGHT;
     current_rgb.b = SIDE_BLINK_LIGHT;
     set_sys_light();
-    side_is31fl3733_set_color_strip(led_side, current_rgb.r, current_rgb.g, current_rgb.b);
+    side_is31fl3733_set_color_strip(RIGHT_SIDE, current_rgb.r, current_rgb.g, current_rgb.b);
 }
 
 static uint8_t breathe_data(uint8_t step) {
