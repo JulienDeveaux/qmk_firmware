@@ -249,16 +249,26 @@ void sleep_sw_led_show(void) {
  * @brief  host system led indicate.
  */
 void sys_led_show(void) {
+    static led_t last_led_state = {0};
+    led_t current_led_state = host_keyboard_led_state();
+
+    // Track when we receive the first actual state change from the host
+    if (!numlock_state_init && (current_led_state.raw != last_led_state.raw)) {
+        numlock_state_init = true;
+    }
+    last_led_state = current_led_state;
+
     current_rgb.g = SIDE_BLINK_LIGHT;
     current_rgb.b = SIDE_BLINK_LIGHT;
     current_rgb.r = 0x00;
 
-    if (host_keyboard_led_state().caps_lock) {
+    if (current_led_state.caps_lock) {
         set_sys_light();
         side_is31fl3733_set_color_strip(LEFT_SIDE, current_rgb.r, current_rgb.g, current_rgb.b);
     }
 
-    if (user_config.numlock_state != 1 || host_keyboard_led_state().num_lock) { return; }
+    // Only show num lock indicator if we've received at least one state update from host
+    if (!numlock_state_init || user_config.numlock_state != 1 || current_led_state.num_lock) { return; }
 
     current_rgb.r = SIDE_BLINK_LIGHT;
     current_rgb.g = SIDE_BLINK_LIGHT;

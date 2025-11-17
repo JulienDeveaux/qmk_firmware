@@ -66,6 +66,7 @@ uint32_t       sleep_show_timer        = 0;
 
 uint16_t       left_pressed            = 0;
 uint16_t       right_pressed           = 0;
+bool           numlock_state_init      = false;
 
 
 host_driver_t *m_host_driver           = 0;
