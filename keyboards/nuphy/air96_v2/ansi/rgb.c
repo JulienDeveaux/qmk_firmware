@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "rgb_table.h"
 #include "mcu_pwr.h"
 #include "is31fl3733_side_driver.h"
+#include "os_detection.h"
 
 /* side rgb mode */
 enum {
@@ -253,8 +254,12 @@ void sys_led_show(void) {
     led_t current_led_state = host_keyboard_led_state();
 
     // Track when we receive the first actual state change from the host
-    if (!numlock_state_init && (current_led_state.raw != last_led_state.raw)) {
-        numlock_state_init = true;
+    // On Mac, numlock state never changes, so mark as ready immediately
+    if (!numlock_state_init) {
+        os_variant_t os = detected_host_os();
+        if (os == OS_MACOS || os == OS_IOS || (current_led_state.raw != last_led_state.raw)) {
+            numlock_state_init = true;
+        }
     }
     last_led_state = current_led_state;
 
