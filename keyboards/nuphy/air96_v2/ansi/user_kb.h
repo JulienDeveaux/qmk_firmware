@@ -244,6 +244,7 @@ extern uint32_t           dequeue_delay;
 extern uint8_t            delay_step_timer;
 extern uint16_t           side_one_timer;
 extern bool               numlock_state_init;
+extern bool               internal_num_lock;
 
 extern bool               is_side_is31fl3733_off(void);
 extern void               user_config_override(void);

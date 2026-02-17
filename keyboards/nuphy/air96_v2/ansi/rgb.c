@@ -253,6 +253,11 @@ void sys_led_show(void) {
     static led_t last_led_state = {0};
     led_t current_led_state = host_keyboard_led_state();
 
+    // Override internal numlock when host num_lock state changes
+    if (current_led_state.num_lock != last_led_state.num_lock) {
+        internal_num_lock = current_led_state.num_lock;
+    }
+
     // Track when we receive the first actual state change from the host
     // On Mac, numlock state never changes, so mark as ready immediately
     if (!numlock_state_init) {
@@ -273,7 +278,7 @@ void sys_led_show(void) {
     }
 
     // Only show num lock indicator if we've received at least one state update from host
-    if (!numlock_state_init || user_config.numlock_state != 1 || current_led_state.num_lock) { return; }
+    if (!numlock_state_init || user_config.numlock_state != 1 || internal_num_lock) { return; }
 
     current_rgb.r = SIDE_BLINK_LIGHT;
     current_rgb.g = SIDE_BLINK_LIGHT;
@@ -741,7 +746,7 @@ void caps_word_show(void) {
 
 void numlock_rgb_show(void) {
     static bool num_lock_rgb_on = 0;
-    if (!host_keyboard_led_state().num_lock || user_config.numlock_state != 2) {
+    if (!internal_num_lock || user_config.numlock_state != 2) {
         if (num_lock_rgb_on) {
             num_lock_rgb_on = 0;
             rgb_matrix_set_color(led_idx.KC_NUM, RGB_OFF);

@@ -67,6 +67,7 @@ uint32_t       sleep_show_timer        = 0;
 uint16_t       left_pressed            = 0;
 uint16_t       right_pressed           = 0;
 bool           numlock_state_init      = false;
+bool           internal_num_lock       = true;
 
 
 host_driver_t *m_host_driver           = 0;
@@ -181,6 +182,7 @@ void user_key_press(void) {
     if (f_numlock_press) {
         f_numlock_press++;
         if (f_numlock_press > MICRO_PRESS_DELAY) {
+            internal_num_lock = !internal_num_lock;
             tap_code(KC_NUM);
             f_numlock_press = 0;
         }

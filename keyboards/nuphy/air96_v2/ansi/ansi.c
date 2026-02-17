@@ -34,6 +34,11 @@ bool pre_process_record_kb(uint16_t keycode, keyrecord_t *record) {
         exit_light_sleep(false);
     }
 
+    // Toggle internal numlock tracking on KC_NUM press
+    if (keycode == KC_NUM && record->event.pressed) {
+        internal_num_lock = !internal_num_lock;
+    }
+
     if (!pre_process_record_user(keycode, record)) {
         return false;
     }
