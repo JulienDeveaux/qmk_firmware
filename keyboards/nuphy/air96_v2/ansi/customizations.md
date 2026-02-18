@@ -51,8 +51,11 @@ The following customizations were applied on top of the stock firmware.
 -  Fix LED lights not powering down when not used.
 
 -  Fix keystrokes being lost on wake. Wake keystrokes will appear after a very short delay while board re-establishes connection. BT may not be as reliable as the dongle. <br />
-   This is achieved through a buffer of 64 key actions (key down and key up are 2 actions). The buffer is cleared if connection is not established within 1s after the last action. <br />
+   This is achieved through a buffer of 64 key actions (key down and key up are 2 actions). The buffer is cleared if connection is not established within 6s after the last action. <br />
    Key events after the buffer is full will also be dropped. (Buffer algorithm taken from jincao1) <br />
+   Additionally, after waking from sleep, all keystrokes are forced through the buffer queue instead of being sent directly. <br />
+   This prevents the first keystroke from being lost when the RF module is not yet fully ready despite reporting a connected state. <br />
+   Direct sending resumes automatically once the queue is empty and the connection is confirmed stable. <br />
 
 -  FN + M + F1 => enables Debug mode. This mode will show messages in console including matrix scan rate and various settings changes
 

@@ -186,6 +186,11 @@ void exit_light_sleep(bool stm32_init) {
     f_rf_sleep = 0;
     f_wakeup_prepare = 0;
 
+    // Force keystrokes through the queue until connection is confirmed stable
+    if (dev_info.link_mode != LINK_USB) {
+        f_wake_buffering = true;
+    }
+
     // Power on LEDs
     led_pwr_wake_handle();
 

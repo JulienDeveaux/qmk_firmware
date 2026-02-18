@@ -144,6 +144,9 @@ void uart_send_report_repeat(void) {
         return;
     }
 
+    // Queue is empty and connected: safe to resume direct sending after wake
+    f_wake_buffering = false;
+
     // queue is empty, decay quality indicator
     if (rf_link_quality > 0 && timer_elapsed32(quality_decay_timer) > 1500) {
         rf_link_quality = 0;

@@ -68,6 +68,7 @@ uint16_t       left_pressed            = 0;
 uint16_t       right_pressed           = 0;
 bool           numlock_state_init      = false;
 bool           internal_num_lock       = true;
+bool           f_wake_buffering        = false;
 
 
 host_driver_t *m_host_driver           = 0;
