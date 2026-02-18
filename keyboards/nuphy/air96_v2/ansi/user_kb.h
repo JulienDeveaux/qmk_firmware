@@ -241,6 +241,7 @@ extern uint16_t           left_pressed;
 extern uint16_t           left_pressed;
 extern uint16_t           right_pressed;
 extern uint32_t           dequeue_delay;
+extern uint8_t            rf_link_quality;
 extern uint8_t            delay_step_timer;
 extern uint16_t           side_one_timer;
 extern bool               numlock_state_init;

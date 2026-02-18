@@ -744,6 +744,23 @@ void caps_word_show(void) {
 }
 
 
+void rf_quality_show(void) {
+    if (dev_info.link_mode == LINK_USB || rf_link_quality == 0) { return; }
+
+    if (rf_link_quality >= 2) {
+        current_rgb.r = SIDE_BLINK_LIGHT;
+        current_rgb.g = 0x00;
+        current_rgb.b = 0x00;
+    } else {
+        current_rgb.r = SIDE_BLINK_LIGHT;
+        current_rgb.g = SIDE_BLINK_LIGHT / 3;
+        current_rgb.b = 0x00;
+    }
+
+    set_sys_light();
+    side_is31fl3733_set_color_strip(LEFT_SIDE, current_rgb.r, current_rgb.g, current_rgb.b);
+}
+
 void numlock_rgb_show(void) {
     static bool num_lock_rgb_on = 0;
     if (!internal_num_lock || user_config.numlock_state != 2) {
@@ -808,6 +825,7 @@ void normal_led_process(void) {
 
 
     side_one_show();
+    rf_quality_show();
     bat_led_show();
     sleep_sw_led_show();
 

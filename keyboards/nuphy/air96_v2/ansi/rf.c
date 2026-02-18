@@ -43,6 +43,7 @@ static bool rcv_start  = false;
 uint8_t  func_tab[32]        = {0};
 uint8_t  sync_lost           = 0;
 uint8_t  rf_disconnect_delay = 0;
+uint8_t  rf_link_quality     = 0;
 uint32_t uart_rpt_timer      = 0;
 uint32_t dequeue_delay       = 0;
 
@@ -121,17 +122,31 @@ void uart_send_repeat_from_queue(void) {
  * @note   Repeats the last sent key reports to reduce stuck keys once every 50ms if no activity.
  */
 void uart_send_report_repeat(void) {
-    if (dev_info.link_mode == LINK_USB) { return; }
+    static uint32_t quality_warn_timer  = 0;
+    static uint32_t quality_decay_timer = 0;
+
+    if (dev_info.link_mode == LINK_USB) { rf_link_quality = 0; return; }
 
     if (dev_info.rf_state != RF_CONNECT) {
         if (no_act_time > 600) { clear_report_buffer_and_queue(); }
+        rf_link_quality = 0;
         return;
     }
 
     // queue is not empty, send from queue.
     if (!rf_queue.is_empty()) {
+        if (rf_link_quality == 0) {
+            quality_warn_timer = timer_read32();
+        }
+        rf_link_quality     = timer_elapsed32(quality_warn_timer) > 1500 ? 2 : 1;
+        quality_decay_timer = timer_read32();
         uart_send_repeat_from_queue();
         return;
+    }
+
+    // queue is empty, decay quality indicator
+    if (rf_link_quality > 0 && timer_elapsed32(quality_decay_timer) > 1500) {
+        rf_link_quality = 0;
     }
 
     if (no_act_time > 200) { return; }

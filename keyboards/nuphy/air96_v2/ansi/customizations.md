@@ -155,6 +155,12 @@ Example: <br />
   Keyboard will not enter sleep regardless of settings if it is charging or if it is connected via USB. <br />
   Keyboard will not enter sleep if GAME MODE is active <br />
  <br />
+-  RF connection quality indicator on left side LEDs. During normal operation, the side LEDs behave as usual. When the RF transmission queue is not empty while connected (indicating degraded connection quality), the left side LEDs will change color: <br />
+   Orange: connection quality is degraded (queue is actively draining) <br />
+   Red: connection quality is bad (queue has been non-empty for more than 1.5 seconds) <br />
+   The indicator persists for 1.5 seconds after the queue empties, then returns to normal. <br />
+   Caps lock indicator takes priority over the quality indicator when active. <br />
+
 ## Author
 
 [@adi4086](https://github.com/adi4086)
