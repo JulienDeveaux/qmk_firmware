@@ -100,7 +100,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SIDE_MOD:
         case SIDE_SPI:
         case SIDE_SPD:
-        case SIDE_1:
         case SLEEP_MODE:
         case SLEEP_I:
         case SLEEP_D:
@@ -309,12 +308,6 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 uint8_t dir = keycode % SIDE_SPD;
                 side_speed_control(dir);
-            }
-            return false;
-
-        case SIDE_1:
-            if (record->event.pressed) {
-                side_one_control();
             }
             return false;
 

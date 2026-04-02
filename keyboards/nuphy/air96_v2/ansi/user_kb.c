@@ -44,7 +44,6 @@ uint8_t        host_mode               = 0;
 uint8_t        rgb_interval            = 0;
 uint8_t        delay_step_timer        = 0;
 uint8_t        long_press_timer        = 0;
-uint16_t       side_one_timer          = 0;
 uint16_t       rf_linking_time         = 0;
 uint16_t       rf_link_show_time       = 0;
 uint32_t       no_act_time             = 0;
@@ -421,7 +420,6 @@ void timer_pro(void) {
 
     if (long_press_timer < UINT8_MAX) { long_press_timer++; }
 
-    if (side_one_timer < UINT16_MAX) { side_one_timer += adjust_time + 1; }
 
     adjust_time = 0;
 }
@@ -634,7 +632,6 @@ void user_config_reset(void) {
     user_config.ee_side_speed           = 2;
     user_config.ee_side_rgb             = 1;
     user_config.ee_side_colour          = 0;
-    user_config.ee_side_one             = 0;
     user_config.debounce_ms             = DEBOUNCE;
     user_config.debounce_type           = 1;
     user_config.sleep_mode              = 1;

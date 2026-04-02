@@ -418,39 +418,6 @@ static void side_off_mode_show(void) {
     side_is31fl3733_set_color_strip(LEFT_SIDE + RIGHT_SIDE, RGB_OFF);
 }
 
-/**
- * @brief  side_one_control
- */
-void side_one_control(void)
-{
-    user_config.ee_side_one = (user_config.ee_side_one + 1) % 4;
-    side_one_timer = 0;
-#ifndef NO_DEBUG
-    dprintf("side matrix side_control [NOEEPROM]: %d\n", user_config.ee_side_one);
-#endif
-}
-
-/**
- * @brief  side_one_show
- */
-static void side_one_show(void)
-{
-    if (game_mode_enable || user_config.ee_side_one == 0 || user_config.ee_side_light == 0) { return; }
-    static uint8_t my_side = RIGHT_SIDE;
-
-    if (user_config.ee_side_one != LEFT_SIDE + RIGHT_SIDE) {
-        side_is31fl3733_set_color_strip(user_config.ee_side_one, RGB_OFF);
-    } else {
-        if (side_one_timer < 50 ) {
-            side_is31fl3733_set_color_strip(LEFT_SIDE + RIGHT_SIDE, RGB_OFF);
-            return;
-        } else if (side_one_timer > 6000 ) {
-            side_one_timer = 50;
-            my_side = my_side == RIGHT_SIDE ? LEFT_SIDE : RIGHT_SIDE;
-        }
-        side_is31fl3733_set_color_strip(my_side, RGB_OFF);
-    }
-}
 
 /**
  * @brief  rf state indicate
@@ -824,7 +791,6 @@ void normal_led_process(void) {
     }
 
 
-    side_one_show();
     rf_quality_show();
     bat_led_show();
     sleep_sw_led_show();

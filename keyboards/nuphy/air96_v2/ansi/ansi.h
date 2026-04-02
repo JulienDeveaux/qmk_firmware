@@ -40,8 +40,6 @@ enum custom_keycodes {
     SIDE_HUI,
     SIDE_SPD,
     SIDE_SPI,
-    SIDE_1,
-
     DEV_RESET,
     BAT_SHOW,
     BAT_NUM,
